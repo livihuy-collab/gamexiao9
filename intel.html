@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra Trắc Nghiệm Hóa Học 12 - Chương 3 | THPT Lê Lợi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f6fc;
+            color: #1e293b;
+        }
+        /* Gradient chủ đạo giống bìa tài liệu THPT Lê Lợi */
+        .brand-gradient {
+            background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 50%, #7e22ce 100%);
+        }
+        .brand-text-gradient {
+            background: linear-gradient(135deg, #1d4ed8 0%, #7e22ce 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .chem-formula sub, .chem-formula sup {
+            font-size: 72%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+        .chem-formula sup { top: -0.45em; }
+        .chem-formula sub { bottom: -0.22em; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .option-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-card:hover:not(.disabled) {
+            transform: translateY(-1px);
+            border-color: #6366f1;
+            background-color: #eef2ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Header -->
+    <header class="brand-gradient text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/15 p-2.5 rounded-xl backdrop-blur-sm border border-white/20">
+                    <i class="fa-solid fa-flask-vial text-2xl text-amber-300"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold tracking-wider uppercase text-blue-200">Trường THPT Lê Lợi • Năm học 2026-2027</p>
+                    <h1 class="text-base sm:text-lg font-extrabold tracking-tight">HÓA HỌC 12 — CHƯƠNG 3: HỢP CHẤT CHỨA NITROGEN</h1>
+                </div>
+            </div>
+            <div id="header-timer-box" class="hidden items-center space-x-3 bg-white/15 px-4 py-2 rounded-xl border border-white/20 backdrop-blur-sm">
+                <i class="fa-regular fa-clock text-amber-300 animate-pulse"></i>
+                <span id="timer-display" class="font-mono text-lg sm:text-xl font-bold tracking-wider">45:00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- VIEW 1: WELCOME / SETUP SCREEN -->
+        <section id="welcome-screen" class="max-w-3xl mx-auto my-4 sm:my-8">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <!-- Banner Top -->
+                <div class="brand-gradient p-6 sm:p-10 text-white relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 opacity-10 text-9xl">
+                        <i class="fa-solid fa-atom"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-amber-400 text-slate-900 font-bold text-xs rounded-full uppercase tracking-wider mb-3">
+                            Chương trình GDPT 2018 • Định dạng mới
+                        </span>
+                        <h2 class="text-2xl sm:text-4xl font-extrabold mb-2">Hệ Thống Kiểm Tra Trực Tuyến</h2>
+                        <p class="text-blue-100 text-sm sm:text-base max-w-xl">
+                            Kết nối tri thức • Khơi nguồn đam mê • Chinh phục tương lai. Luyện tập và đánh giá năng lực Chương 3: Amine, Amino Acid, Peptide, Protein & Enzyme.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Form Content -->
+                <div class="p-6 sm:p-8 space-y-6">
+                    <!-- Student Info -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                <i class="fa-solid fa-user-graduate text-indigo-600 mr-1.5"></i>Họ và tên học sinh <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="student-name" placeholder="Ví dụ: Nguyễn Văn An" 
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                <i class="fa-solid fa-chalkboard-user text-indigo-600 mr-1.5"></i>Lớp <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="student-class" placeholder="Ví dụ: 12A1" 
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                        </div>
+                    </div>
+
+                    <div id="validation-msg" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span>Vui lòng nhập đầy đủ Họ và tên và Lớp trước khi bắt đầu làm bài!</span>
+                    </div>
+
+                    <!-- Exam Mode Selection -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">
+                            <i class="fa-solid fa-layer-group text-indigo-600 mr-1.5"></i>Chọn chuyên đề / Đề kiểm tra:
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" id="topic-selector">
+                            <!-- Card 1 -->
+                            <div onclick="selectTopic('full')" data-topic="full" class="topic-card cursor-pointer p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/70 transition relative">
+                                <div class="flex items-start justify-between">
+                                    <div class="w-10 h-10 rounded-xl brand-gradient text-white flex items-center justify-center font-bold shadow">
+                                        <i class="fa-solid fa-award"></i>
+                                    </div>
+                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-600 text-white">45 phút</span>
+                                </div>
+                                <h3 class="font-bold text-slate-800 mt-3">Đề Tổng Hợp Chương 3</h3>
+                                <p class="text-xs text-slate-500 mt-1">Chuẩn cấu trúc Bộ GD&ĐT: 18 câu Phần I + 4 câu Phần II + 6 câu Phần III (Thang điểm 10).</p>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div onclick="selectTopic('bai8')" data-topic="bai8" class="topic-card cursor-pointer p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 bg-white transition relative">
+                                <div class="flex items-start justify-between">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+                                        B8
+                                    </div>
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">25 phút</span>
+                                </div>
+                                <h3 class="font-bold text-slate-800 mt-3">Bài 8: Amine</h3>
+                                <p class="text-xs text-slate-500 mt-1">Danh pháp, bậc amine, tính base, phản ứng với HNO₂, nước Br₂ & bài tập tính toán.</p>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div onclick="selectTopic('bai9')" data-topic="bai9" class="topic-card cursor-pointer p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 bg-white transition relative">
+                                <div class="flex items-start justify-between">
+                                    <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+                                        B9
+                                    </div>
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">25 phút</span>
+                                </div>
+                                <h3 class="font-bold text-slate-800 mt-3">Bài 9: Amino Acid & Peptide</h3>
+                                <p class="text-xs text-slate-500 mt-1">Ion lưỡng cực, tính điện di, phản ứng thủy phân peptide và phản ứng màu biuret.</p>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div onclick="selectTopic('bai10')" data-topic="bai10" class="topic-card cursor-pointer p-4 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 bg-white transition relative">
+                                <div class="flex items-start justify-between">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                                        B10
+                                    </div>
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">20 phút</span>
+                                </div>
+                                <h3 class="font-bold text-slate-800 mt-3">Bài 10: Protein & Enzyme</h3>
+                                <p class="text-xs text-slate-500 mt-1">Cấu trúc hình sợi/hình cầu, sự đông tụ protein, phản ứng màu với HNO₃ và xúc tác sinh học.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scoring Structure Info -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 text-xs text-slate-600 space-y-1.5">
+                        <p class="font-bold text-slate-700 uppercase tracking-wide"><i class="fa-solid fa-circle-info text-blue-600 mr-1.5"></i>Quy định tính điểm chuẩn (Thang điểm 10):</p>
+                        <ul class="list-disc list-inside space-y-1 pl-1">
+                            <li><strong>Phần I (Trắc nghiệm 4 lựa chọn):</strong> Mỗi câu trả lời đúng được <strong>0,25 điểm</strong>.</li>
+                            <li><strong>Phần II (Trắc nghiệm Đúng - Sai):</strong> Mỗi câu gồm 4 ý (a, b, c, d). Đúng 1 ý được <strong>0,1đ</strong>; đúng 2 ý được <strong>0,25đ</strong>; đúng 3 ý được <strong>0,5đ</strong>; đúng cả 4 ý được <strong>1,0đ</strong>.</li>
+                            <li><strong>Phần III (Trắc nghiệm trả lời ngắn):</strong> Mỗi câu trả lời đúng được <strong>0,25 điểm</strong> (hoặc quy đổi tương ứng theo số câu của chuyên đề để tròn 10 điểm).</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="startExam()" class="w-full brand-gradient hover:opacity-95 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-500/30 transition transform active:scale-[0.99] flex items-center justify-center space-x-2 text-base sm:text-lg">
+                        <span>BẮT ĐẦU LÀM BÀI</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: RESULT SUMMARY BANNER (Shown after submission) -->
+        <section id="result-screen" class="hidden mb-8">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+                <div class="brand-gradient p-6 sm:p-8 text-white">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-center md:text-left">
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider">Kết quả bài kiểm tra</span>
+                            <h2 id="res-exam-title" class="text-2xl sm:text-3xl font-extrabold mt-2">Đề Tổng Hợp Chương 3</h2>
+                            <div class="mt-3 flex flex-wrap justify-center md:justify-start gap-4 text-sm text-blue-100">
+                                <span><i class="fa-solid fa-user mr-1.5"></i>Thí sinh: <strong id="res-name" class="text-white"></strong></span>
+                                <span><i class="fa-solid fa-users mr-1.5"></i>Lớp: <strong id="res-class" class="text-white"></strong></span>
+                                <span><i class="fa-solid fa-stopwatch mr-1.5"></i>Thời gian: <strong id="res-time" class="text-white"></strong></span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white text-slate-900 rounded-2xl p-5 sm:px-8 text-center shadow-lg min-w-[180px]">
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Tổng điểm</p>
+                            <div id="res-score" class="text-4xl sm:text-5xl font-black brand-text-gradient my-1">0.00</div>
+                            <p id="res-rank" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700 inline-block">Hoàn thành</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breakdown Stats -->
+                <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 border-b border-slate-200">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500">Phần I (Nhiều lựa chọn)</p>
+                            <p id="stat-p1" class="text-lg font-extrabold text-slate-800 mt-0.5">0/0 câu đúng</p>
+                        </div>
+                        <span id="score-p1" class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-xl">+0.00đ</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500">Phần II (Đúng - Sai)</p>
+                            <p id="stat-p2" class="text-lg font-extrabold text-slate-800 mt-0.5">0/0 ý đúng</p>
+                        </div>
+                        <span id="score-p2" class="text-sm font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-xl">+0.00đ</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500">Phần III (Trả lời ngắn)</p>
+                            <p id="stat-p3" class="text-lg font-extrabold text-slate-800 mt-0.5">0/0 câu đúng</p>
+                        </div>
+                        <span id="score-p3" class="text-sm font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-xl">+0.00đ</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="p-4 sm:px-6 bg-white flex flex-wrap items-center justify-between gap-3">
+                    <p class="text-sm text-slate-600"><i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i>Xem chi tiết đáp án đúng/sai và lời giải thích ở bên dưới.</p>
+                    <div class="flex space-x-3">
+                        <button onclick="retryExam()" class="px-4 py-2.5 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-semibold text-sm transition flex items-center">
+                            <i class="fa-solid fa-rotate-right mr-1.5"></i>Làm lại đề này
+                        </button>
+                        <button onclick="resetToHome()" class="px-4 py-2.5 rounded-xl brand-gradient text-white hover:opacity-95 font-semibold text-sm transition flex items-center shadow">
+                            <i class="fa-solid fa-house mr-1.5"></i>Chọn chuyên đề khác
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: EXAM WORKSPACE (Questions + Navigation Sidebar) -->
+        <section id="exam-workspace" class="hidden grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Left Column: Questions List -->
+            <div class="lg:col-span-8 space-y-8" id="questions-container">
+                <!-- Part I Container -->
+                <div id="part1-section" class="space-y-4">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border-l-4 border-blue-600 shadow-sm">
+                        <h3 class="text-lg font-extrabold text-slate-800">PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Thí sinh trả lời từ câu 1 đến câu <span id="p1-count-label">18</span>. Mỗi câu hỏi thí sinh chỉ chọn một phương án.</p>
+                    </div>
+                    <div id="part1-list" class="space-y-4"></div>
+                </div>
+
+                <!-- Part II Container -->
+                <div id="part2-section" class="space-y-4">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border-l-4 border-purple-600 shadow-sm">
+                        <h3 class="text-lg font-extrabold text-slate-800">PHẦN II. Câu trắc nghiệm đúng sai</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Thí sinh trả lời từ câu 1 đến câu <span id="p2-count-label">4</span>. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn Đúng hoặc Sai.</p>
+                    </div>
+                    <div id="part2-list" class="space-y-4"></div>
+                </div>
+
+                <!-- Part III Container -->
+                <div id="part3-section" class="space-y-4">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border-l-4 border-emerald-600 shadow-sm">
+                        <h3 class="text-lg font-extrabold text-slate-800">PHẦN III. Câu trắc nghiệm trả lời ngắn</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Thí sinh trả lời từ câu 1 đến câu <span id="p3-count-label">6</span>. Điền kết quả số (dùng dấu phẩy hoặc dấu chấm cho số thập phân).</p>
+                    </div>
+                    <div id="part3-list" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- Right Column: Sticky Navigation Palette -->
+            <aside class="lg:col-span-4 lg:sticky lg:top-20 space-y-4">
+                <div class="bg-white rounded-2xl shadow-md border border-slate-200/80 p-5">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold uppercase">Thí sinh</p>
+                            <p id="nav-student-info" class="font-bold text-slate-800 text-sm">Học sinh • Lớp</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-slate-400 font-semibold uppercase">Đã làm</p>
+                            <p id="nav-progress-text" class="font-extrabold text-indigo-600 text-sm">0/28</p>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="grid grid-cols-3 gap-2 py-3 text-[11px] text-slate-600 border-b border-slate-100">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block"></span>
+                            <span>Chưa làm</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded bg-indigo-600 inline-block"></span>
+                            <span>Đã làm</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="w-3 h-3 rounded bg-amber-400 inline-block"></span>
+                            <span>Xem lại</span>
+                        </div>
+                    </div>
+
+                    <!-- Palette Grids -->
+                    <div class="py-4 max-h-[55vh] overflow-y-auto space-y-4 pr-1">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 mb-2">Phần I: Nhiều lựa chọn</p>
+                            <div id="palette-p1" class="grid grid-cols-6 gap-1.5"></div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 mb-2">Phần II: Đúng / Sai</p>
+                            <div id="palette-p2" class="grid grid-cols-4 gap-1.5"></div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 mb-2">Phần III: Trả lời ngắn</p>
+                            <div id="palette-p3" class="grid grid-cols-6 gap-1.5"></div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div id="submit-action-box" class="pt-3 border-t border-slate-100">
+                        <button onclick="openSubmitModal()" class="w-full brand-gradient hover:opacity-95 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>NỘP BÀI & CHẤM ĐIỂM</span>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <!-- Custom Confirm Modal (No window.confirm used!) -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl transform transition-all">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-4">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-800">Xác nhận nộp bài?</h3>
+            <p id="confirm-modal-desc" class="text-sm text-slate-600 mt-2">
+                Bạn đã hoàn thành <strong class="text-indigo-600">0/28</strong> câu hỏi. Sau khi nộp bài, hệ thống sẽ chấm điểm và hiển thị lời giải chi tiết.
+            </p>
+            <div class="mt-6 flex space-x-3">
+                <button onclick="closeSubmitModal()" class="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition">
+                    Tiếp tục làm bài
+                </button>
+                <button onclick="submitExam()" class="flex-1 py-3 rounded-xl brand-gradient text-white font-bold text-sm shadow-md hover:opacity-95 transition">
+                    Nộp bài ngay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            Tài liệu học tập & kiểm tra môn Hóa học 12 — Tổ Hóa Học, Trường THPT Lê Lợi • Năm học 2026 - 2027
+        </div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // 1. NGÂN HÀNG CÂU HỎI TỪ TÀI LIỆU CHƯƠNG 3 (HÓA HỌC 12)
+        // =========================================================================
+        const QUESTION_BANK = {
+            // ---------------- PHẦN I: TRẮC NGHIỆM NHIỀU LỰA CHỌN ----------------
+            part1: [
+                // --- BÀI 8: AMINE ---
+                {
+                    id: 'p1_8_1', topic: 'bai8',
+                    question: 'Chất nào sau đây thuộc loại amine bậc ba?',
+                    options: ['C<sub>2</sub>H<sub>5</sub>NH<sub>2</sub>', '(CH<sub>3</sub>)<sub>3</sub>N', 'CH<sub>3</sub>NHCH<sub>3</sub>', 'CH<sub>3</sub>NH<sub>2</sub>'],
+                    correct: 1,
+                    explanation: 'Bậc của amine bằng số gốc hydrocarbon liên kết trực tiếp với nguyên tử nitrogen. (CH<sub>3</sub>)<sub>3</sub>N có 3 gốc methyl liên kết với N nên là amine bậc ba.'
+                },
+                {
+                    id: 'p1_8_2', topic: 'bai8',
+                    question: 'Số amine thơm bậc một ứng với công thức phân tử C<sub>7</sub>H<sub>9</sub>N là:',
+                    options: ['3', '2', '5', '4'],
+                    correct: 3,
+                    explanation: 'Các đồng phân amine thơm bậc 1 của C<sub>7</sub>H<sub>9</sub>N gồm: C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>NH<sub>2</sub> (benzylamine) và 3 đồng phân o-, m-, p-CH<sub>3</sub>C<sub>6</sub>H<sub>4</sub>NH<sub>2</sub> (toluidine). Tổng cộng có 4 đồng phân.'
+                },
+                {
+                    id: 'p1_8_3', topic: 'bai8',
+                    question: 'Số đồng phân cấu tạo của amine bậc một có cùng công thức phân tử C<sub>4</sub>H<sub>11</sub>N là:',
+                    options: ['4', '5', '2', '3'],
+                    correct: 0,
+                    explanation: 'Amine bậc 1 có dạng C<sub>4</sub>H<sub>9</sub>-NH<sub>2</sub>. Vì gốc -C<sub>4</sub>H<sub>9</sub> có 4 đồng phân cấu tạo (n-butyl, sec-butyl, isobutyl, tert-butyl) nên có 4 amine bậc một.'
+                },
+                {
+                    id: 'p1_8_4', topic: 'bai8',
+                    question: 'Tên gọi và bậc của amine có công thức cấu tạo CH<sub>3</sub>CH<sub>2</sub>CH(CH<sub>3</sub>)CH<sub>2</sub>-NH<sub>2</sub> là:',
+                    options: [
+                        '3-methylbutan-4-amine, bậc một.',
+                        '2-methylbutan-1-amine, bậc hai.',
+                        '3-methylbutan-4-amine, bậc hai.',
+                        '2-methylbutan-1-amine, bậc một.'
+                    ],
+                    correct: 3,
+                    explanation: 'Đánh số mạch chính từ phía gần nhóm -NH<sub>2</sub> nhất (C1 gắn với -NH<sub>2</sub>, C2 gắn nhóm -CH<sub>3</sub>). Tên thay thế: 2-methylbutan-1-amine. Nhóm -NH<sub>2</sub> gắn với 1 gốc hydrocarbon nên là amine bậc một.'
+                },
+                {
+                    id: 'p1_8_5', topic: 'bai8',
+                    question: 'Dung dịch chất nào sau đây <strong>không</strong> làm quỳ tím chuyển màu?',
+                    options: ['Ethylamine', 'Aniline', 'Methylamine', 'Trimethylamine'],
+                    correct: 1,
+                    explanation: 'Aniline (C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub>) có lực base rất yếu do vòng benzene hút electron làm giảm mật độ electron trên nguyên tử N, nên dung dịch aniline không làm đổi màu quỳ tím.'
+                },
+                {
+                    id: 'p1_8_6', topic: 'bai8',
+                    question: 'Nhỏ vài giọt nước bromine vào ống nghiệm chứa dung dịch aniline, hiện tượng quan sát được là:',
+                    options: ['Xuất hiện màu xanh.', 'Xuất hiện màu tím.', 'Có kết tủa màu trắng.', 'Có bọt khí thoát ra.'],
+                    correct: 2,
+                    explanation: 'Aniline dễ tham gia phản ứng thế với nước bromine tạo kết tủa trắng 2,4,6-tribromoaniline: C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub> + 3Br<sub>2</sub> → C<sub>6</sub>H<sub>2</sub>Br<sub>3</sub>NH<sub>2</sub>↓ + 3HBr.'
+                },
+                {
+                    id: 'p1_8_7', topic: 'bai8',
+                    question: 'Có 3 chất lỏng: benzene, aniline, styrene đựng riêng biệt trong 3 lọ mất nhãn. Thuốc thử duy nhất để phân biệt 3 chất lỏng trên là:',
+                    options: ['Dung dịch phenolphthalein', 'Nước bromine', 'Dung dịch NaOH', 'Giấy quỳ tím'],
+                    correct: 1,
+                    explanation: 'Dùng nước bromine: Aniline tạo kết tủa trắng; Styrene làm mất màu nước bromine (không tạo kết tủa); Benzene không phản ứng (tách lớp).'
+                },
+                {
+                    id: 'p1_8_8', topic: 'bai8',
+                    question: 'Phát biểu nào sau đây là <strong>đúng</strong>?',
+                    options: [
+                        'Aniline tác dụng với nitrous acid (HNO<sub>2</sub>) khi đun nóng, thu được muối diazonium.',
+                        'Benzene làm mất màu nước bromine ở nhiệt độ thường.',
+                        'Ethylamine phản ứng với nitrous acid (HNO<sub>2</sub>) ở nhiệt độ thường, sinh ra bọt khí.',
+                        'Tất cả các amine đều làm quỳ tím ẩm chuyển màu xanh.'
+                    ],
+                    correct: 2,
+                    explanation: 'Alkylamine bậc một (như ethylamine) tác dụng với HNO<sub>2</sub> ở nhiệt độ thường tạo alcohol và giải phóng bọt khí N<sub>2</sub>: C<sub>2</sub>H<sub>5</sub>NH<sub>2</sub> + HNO<sub>2</sub> → C<sub>2</sub>H<sub>5</sub>OH + N<sub>2</sub>↑ + H<sub>2</sub>O.'
+                },
+                {
+                    id: 'p1_8_9', topic: 'bai8',
+                    question: 'Để rửa sạch ống nghiệm có dính aniline, có thể dùng dung dịch nào sau đây?',
+                    options: ['Dung dịch NaOH', 'Dung dịch HCl', 'Dung dịch NaCl', 'Nước cất'],
+                    correct: 1,
+                    explanation: 'Aniline ít tan trong nước nhưng có tính base nên phản ứng với dung dịch HCl tạo muối phenylammonium chloride (C<sub>6</sub>H<sub>5</sub>NH<sub>3</sub>Cl) tan tốt trong nước, dễ dàng rửa trôi.'
+                },
+                {
+                    id: 'p1_8_10', topic: 'bai8',
+                    question: 'Cho các phát biểu sau:<br>(1) Dung dịch ethylamine và dung dịch aniline đều làm xanh giấy quỳ tím.<br>(2) Nhỏ từ từ đến dư dung dịch methylamine vào dung dịch CuSO<sub>4</sub>, ban đầu xuất hiện kết tủa xanh nhạt, sau đó kết tủa tan tạo dung dịch xanh lam.<br>(3) Cho dung dịch methylamine vào ống nghiệm đựng dung dịch FeCl<sub>3</sub> thấy xuất hiện kết tủa nâu đỏ.<br>(4) Nhỏ vài giọt dung dịch aniline vào ống nghiệm đựng nước bromine thấy xuất hiện kết tủa trắng.<br>Số phát biểu đúng là:',
+                    options: ['1', '2', '3', '4'],
+                    correct: 2,
+                    explanation: 'Phát biểu (1) sai vì aniline không làm xanh quỳ tím. Các phát biểu (2), (3), (4) đều đúng. Vậy có 3 phát biểu đúng.'
+                },
+
+                // --- BÀI 9: AMINO ACID - PEPTIDE ---
+                {
+                    id: 'p1_9_1', topic: 'bai9',
+                    question: 'Số nhóm amino (-NH<sub>2</sub>) và số nhóm carboxyl (-COOH) có trong một phân tử glutamic acid tương ứng là:',
+                    options: ['1 và 2', '1 và 1', '2 và 1', '2 và 2'],
+                    correct: 0,
+                    explanation: 'Glutamic acid có công thức cấu tạo HOOC-CH<sub>2</sub>-CH<sub>2</sub>-CH(NH<sub>2</sub>)-COOH, gồm 1 nhóm -NH<sub>2</sub> và 2 nhóm -COOH.'
+                },
+                {
+                    id: 'p1_9_2', topic: 'bai9',
+                    question: 'Tên thay thế của hợp chất CH<sub>3</sub>CH(NH<sub>2</sub>)COOH là:',
+                    options: ['2-aminopropanoic acid', 'α-aminopropionic acid', 'Aminoethanoic acid', '3-aminopropanoic acid'],
+                    correct: 0,
+                    explanation: 'Mạch chính có 3 carbon (propanoic acid), nhóm -NH<sub>2</sub> ở vị trí số 2 → Tên thay thế là 2-aminopropanoic acid (tên thông thường là alanine).'
+                },
+                {
+                    id: 'p1_9_3', topic: 'bai9',
+                    question: 'Dung dịch chất nào sau đây làm quỳ tím đổi thành màu xanh?',
+                    options: ['Dung dịch glycine', 'Dung dịch lysine', 'Dung dịch alanine', 'Dung dịch glutamic acid'],
+                    correct: 1,
+                    explanation: 'Lysine có 2 nhóm -NH<sub>2</sub> và 1 nhóm -COOH nên dung dịch có tính base, làm quỳ tím hóa xanh.'
+                },
+                {
+                    id: 'p1_9_4', topic: 'bai9',
+                    question: 'Cho ba dung dịch có cùng nồng độ mol: (1) H<sub>2</sub>NCH<sub>2</sub>COOH, (2) CH<sub>3</sub>COOH, (3) CH<sub>3</sub>CH<sub>2</sub>NH<sub>2</sub>. Dãy xếp theo thứ tự pH tăng dần là:',
+                    options: ['(2), (1), (3)', '(3), (1), (2)', '(1), (2), (3)', '(2), (3), (1)'],
+                    correct: 0,
+                    explanation: '(2) CH<sub>3</sub>COOH có môi trường acid (pH < 7); (1) Glycine trung tính (pH ≈ 7); (3) Ethylamine có môi trường base (pH > 7). Thứ tự pH tăng dần: (2) < (1) < (3).'
+                },
+                {
+                    id: 'p1_9_5', topic: 'bai9',
+                    question: 'Dạng ion chủ yếu nào của glycine tồn tại trong môi trường acid mạnh (pH thấp)?',
+                    options: [
+                        'H<sub>3</sub>N<sup>+</sup>-CH<sub>2</sub>-COOH',
+                        'H<sub>3</sub>N<sup>+</sup>-CH<sub>2</sub>-COO<sup>-</sup>',
+                        'H<sub>2</sub>N-CH<sub>2</sub>-COO<sup>-</sup>',
+                        'H<sub>2</sub>N-CH<sub>2</sub>-COOH'
+                    ],
+                    correct: 0,
+                    explanation: 'Ở pH thấp (dư ion H<sup>+</sup>), nhóm -NH<sub>2</sub> nhận proton tạo thành cation H<sub>3</sub>N<sup>+</sup>-CH<sub>2</sub>-COOH.'
+                },
+                {
+                    id: 'p1_9_6', topic: 'bai9',
+                    question: 'Trong phân tử peptide mạch hở chứa n gốc α-amino acid, số liên kết peptide bằng:',
+                    options: ['n', 'n + 1', 'n - 1', 'n - 2'],
+                    correct: 2,
+                    explanation: 'Cứ 2 gốc α-amino acid nối với nhau tạo 1 liên kết peptide (-CO-NH-). Vậy n gốc α-amino acid mạch hở có (n - 1) liên kết peptide.'
+                },
+                {
+                    id: 'p1_9_7', topic: 'bai9',
+                    question: 'Số nguyên tử carbon trong phân tử dipeptide Gly-Ala là:',
+                    options: ['7', '5', '4', '6'],
+                    correct: 1,
+                    explanation: 'Glycine có 2 nguyên tử C, Alanine có 3 nguyên tử C. Khi ngưng tụ tạo Gly-Ala số nguyên tử C bảo toàn là 2 + 3 = 5 nguyên tử C.'
+                },
+                {
+                    id: 'p1_9_8', topic: 'bai9',
+                    question: 'Peptide nào sau đây <strong>không</strong> có phản ứng màu biuret?',
+                    options: ['Ala-Gly', 'Ala-Ala-Gly-Gly', 'Ala-Gly-Gly', 'Gly-Ala-Gly'],
+                    correct: 0,
+                    explanation: 'Phản ứng màu biuret chỉ xảy ra với các peptide có từ 2 liên kết peptide trở lên (từ tripeptide trở lên). Ala-Gly là dipeptide (chỉ có 1 liên kết peptide) nên không phản ứng.'
+                },
+                {
+                    id: 'p1_9_9', topic: 'bai9',
+                    question: 'Thủy phân hoàn toàn 1 mol pentapeptide X mạch hở, thu được 3 mol glycine, 1 mol alanine và 1 mol valine. Mặt khác, thủy phân không hoàn toàn X thu được hỗn hợp sản phẩm trong đó có Ala-Gly, Gly-Ala, Gly-Gly-Val. Cấu tạo của X là:',
+                    options: [
+                        'Gly-Ala-Gly-Gly-Val',
+                        'Ala-Gly-Gly-Val-Gly',
+                        'Gly-Gly-Val-Gly-Ala',
+                        'Gly-Gly-Ala-Gly-Val'
+                    ],
+                    correct: 0,
+                    explanation: 'X có mảnh Gly-Gly-Val và Ala-Gly, Gly-Ala. Ghép lại trật tự 5 gốc (3 Gly, 1 Ala, 1 Val) thỏa mãn là: Gly-Ala-Gly-Gly-Val (chứa Gly-Ala, Ala-Gly và Gly-Gly-Val).'
+                },
+                {
+                    id: 'p1_9_10', topic: 'bai9',
+                    question: 'Thủy phân không hoàn toàn tetrapeptide X mạch hở, thu được hỗn hợp sản phẩm trong đó có Gly-Ala, Phe-Val và Ala-Phe. Cấu tạo của X là:',
+                    options: ['Gly-Ala-Val-Phe', 'Val-Phe-Gly-Ala', 'Ala-Val-Phe-Gly', 'Gly-Ala-Phe-Val'],
+                    correct: 3,
+                    explanation: 'Ghép các mắt xích trùng nhau: Gly-Ala + Ala-Phe + Phe-Val → Trật tự đúng của tetrapeptide X là Gly-Ala-Phe-Val.'
+                },
+
+                // --- BÀI 10: PROTEIN VÀ ENZYME ---
+                {
+                    id: 'p1_10_1', topic: 'bai10',
+                    question: 'Chất cơ sở để hình thành nên các phân tử protein đơn giản là:',
+                    options: ['α-amino acid', 'Acid béo', 'Các loại đường đơn', 'β-amino acid'],
+                    correct: 0,
+                    explanation: 'Protein đơn giản được cấu tạo từ một hay nhiều chuỗi polypeptide, mà đơn vị cấu tạo nên chuỗi polypeptide là các α-amino acid.'
+                },
+                {
+                    id: 'p1_10_2', topic: 'bai10',
+                    question: 'Khi nhỏ acid HNO<sub>3</sub> đậm đặc vào dung dịch lòng trắng trứng thấy xuất hiện ..(1).., cho Cu(OH)<sub>2</sub>/OH<sup>-</sup> vào dung dịch lòng trắng trứng thấy màu ..(2).. xuất hiện.',
+                    options: [
+                        '(1) kết tủa màu vàng, (2) xanh',
+                        '(1) kết tủa màu xanh, (2) vàng',
+                        '(1) kết tủa màu trắng, (2) tím',
+                        '(1) kết tủa màu vàng, (2) tím'
+                    ],
+                    correct: 3,
+                    explanation: 'Lòng trắng trứng (albumin) phản ứng với HNO<sub>3</sub> đặc tạo kết tủa màu vàng; phản ứng với Cu(OH)<sub>2</sub> trong môi trường kiềm tạo phức chất màu tím đặc trưng (màu biuret).'
+                },
+                {
+                    id: 'p1_10_3', topic: 'bai10',
+                    question: 'Khi nấu canh cua thấy các mảng “gạch cua” nổi lên là do hiện tượng nào sau đây?',
+                    options: [
+                        'Sự đông tụ lipid',
+                        'Sự đông tụ protein',
+                        'Phản ứng màu biuret',
+                        'Phản ứng thủy phân protein'
+                    ],
+                    correct: 1,
+                    explanation: 'Trong nước lọc cua có chứa protein tan. Khi đun nóng, dưới tác dụng của nhiệt độ, protein bị đông tụ lại thành từng mảng nổi lên mặt nước.'
+                },
+                {
+                    id: 'p1_10_4', topic: 'bai10',
+                    question: 'Thuốc thử duy nhất dùng để phân biệt 3 dung dịch riêng biệt: ethylene glycol, albumin, glucose là:',
+                    options: ['Cu(OH)<sub>2</sub>/OH<sup>-</sup>', 'Dung dịch I<sub>2</sub>', 'Dung dịch HNO<sub>3</sub>', 'Dung dịch AgNO<sub>3</sub>/NH<sub>3</sub>'],
+                    correct: 0,
+                    explanation: 'Dùng Cu(OH)<sub>2</sub>/OH<sup>-</sup>: Albumin tạo phức màu tím; Ethylene glycol tạo dung dịch xanh lam (kể cả khi đun nóng); Glucose tạo dung dịch xanh lam ở nhiệt độ thường và kết tủa đỏ gạch Cu<sub>2</sub>O khi đun nóng.'
+                },
+                {
+                    id: 'p1_10_5', topic: 'bai10',
+                    question: 'Phát biểu nào sau đây <strong>sai</strong> khi nói về enzyme?',
+                    options: [
+                        'Phần lớn enzyme là những protein xúc tác cho các phản ứng hóa học và sinh hóa.',
+                        'Enzyme có tính chọn lọc cao, mỗi enzyme chỉ xúc tác cho một hoặc một số phản ứng nhất định.',
+                        'Tốc độ phản ứng có xúc tác enzyme thường nhanh hơn nhiều lần so với xúc tác hóa học.',
+                        'Tốc độ phản ứng có xúc tác enzyme thường chậm hơn nhiều lần so với xúc tác hóa học.'
+                    ],
+                    correct: 3,
+                    explanation: 'Enzyme là chất xúc tác sinh học cực kỳ hiệu quả, làm tăng tốc độ phản ứng nhanh hơn hàng triệu lần so với xúc tác hóa học thông thường. Do đó phát biểu D là sai.'
+                },
+                {
+                    id: 'p1_10_6', topic: 'bai10',
+                    question: 'Phát biểu nào sau đây <strong>sai</strong> về tính chất vật lí của protein?',
+                    options: [
+                        'Các protein hình sợi không tan trong nước cũng như các dung môi thông thường.',
+                        'Các protein dạng hình cầu có thể tan được trong nước tạo thành dung dịch keo.',
+                        'Các protein dạng hình sợi hoặc hình cầu đều tan tốt trong nước.',
+                        'Albumin (có ở lòng trắng trứng) là protein dạng hình cầu nên tan được trong nước tạo dung dịch keo.'
+                    ],
+                    correct: 2,
+                    explanation: 'Protein hình sợi (như keratin ở tóc/móng, collagen ở da, fibroin ở tơ tằm) không tan trong nước. Chỉ protein hình cầu (albumin, hemoglobin) mới tan trong nước tạo dung dịch keo.'
+                }
+            ],
+
+            // ---------------- PHẦN II: TRẮC NGHIỆM ĐÚNG - SAI ----------------
+            part2: [
+                {
+                    id: 'p2_8_1', topic: 'bai8',
+                    stem: 'Amine là dẫn xuất của ammonia, trong đó nguyên tử hydrogen trong phân tử ammonia được thay thế bằng gốc hydrocarbon.',
+                    statements: [
+                        { label: 'a', text: 'Công thức chung của amine no, đơn chức, mạch hở là C<sub>n</sub>H<sub>2n+3</sub>N (n ≥ 1).', answer: true },
+                        { label: 'b', text: 'CH<sub>3</sub>CH<sub>2</sub>NHCH<sub>3</sub> và CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>NH<sub>2</sub> đều là alkylamine đơn chức, bậc 1.', answer: false },
+                        { label: 'c', text: 'C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub> và C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>NH<sub>2</sub> đều là những arylamine đơn chức, bậc 1.', answer: false },
+                        { label: 'd', text: 'Trong phân tử alkylamine, gốc alkyl đẩy electron làm cho mật độ electron trên nguyên tử nitrogen cao hơn so với trong ammonia.', answer: true }
+                    ],
+                    explanation: '• a) Đúng.<br>• b) Sai vì CH<sub>3</sub>CH<sub>2</sub>NHCH<sub>3</sub> là amine bậc 2.<br>• c) Sai vì C<sub>6</sub>H<sub>5</sub>CH<sub>2</sub>NH<sub>2</sub> có nhóm -NH<sub>2</sub> không gắn trực tiếp vào vòng benzene nên không phải arylamine.<br>• d) Đúng, nên alkylamine có tính base mạnh hơn ammonia.'
+                },
+                {
+                    id: 'p2_8_2', topic: 'bai8',
+                    stem: 'Nicotine là amine rất độc, có nhiều trong khói thuốc lá, có khả năng gây tăng huyết áp và nhịp tim, gây xơ vữa động mạch vành và suy giảm trí nhớ. Công thức phân tử của nicotine là C<sub>10</sub>H<sub>14</sub>N<sub>2</sub> (cấu tạo gồm một vòng pyridine và một vòng pyrrolidine chứa nhóm N-CH<sub>3</sub>).',
+                    statements: [
+                        { label: 'a', text: 'Trong một phân tử nicotine có chứa 2 nguyên tử nitrogen.', answer: true },
+                        { label: 'b', text: 'Cả hai nguyên tử nitrogen trong phân tử nicotine đều là amine bậc 3 (không còn nguyên tử H liên kết trực tiếp với N).', answer: true },
+                        { label: 'c', text: 'Nicotine thuộc loại arylamine do có nhóm -NH<sub>2</sub> gắn trực tiếp với vòng benzene.', answer: false },
+                        { label: 'd', text: 'Phần trăm về khối lượng của nguyên tố nitrogen trong nicotine là 17,28%.', answer: true }
+                    ],
+                    explanation: '• a) Đúng (C<sub>10</sub>H<sub>14</sub>N<sub>2</sub>).<br>• b) Đúng (cả 2 nguyên tử N đều liên kết với 3 nguyên tử C).<br>• c) Sai vì nicotine không chứa vòng benzene hay nhóm -NH<sub>2</sub> gắn trực tiếp vòng benzene.<br>• d) Đúng: %N = (28 / 162) × 100% = 17,28%.'
+                },
+                {
+                    id: 'p2_8_3', topic: 'bai8',
+                    stem: 'Tiến hành thí nghiệm tính chất của amine theo các bước sau:<br>Bước 1: Cho 2 mL dung dịch methylamine 0,1 M vào ống nghiệm, thêm tiếp 1 giọt phenolphthalein.<br>Bước 2: Nhỏ từ từ 2 mL dung dịch HCl 0,1 M vào ống nghiệm.',
+                    statements: [
+                        { label: 'a', text: 'Ở bước 1, dung dịch chuyển sang màu hồng do methylamine có tính base.', answer: true },
+                        { label: 'b', text: 'Ở bước 2, dung dịch chuyển sang không màu do methylamine tác dụng với HCl thu được methylammonium chloride.', answer: true },
+                        { label: 'c', text: 'Thí nghiệm trên chứng minh methylamine có tính base.', answer: true },
+                        { label: 'd', text: 'Ở bước 1, nếu thay methylamine bằng aniline thì hiện tượng ở bước 1 và bước 2 xảy ra tương tự.', answer: false }
+                    ],
+                    explanation: '• a) Đúng.<br>• b) Đúng: CH<sub>3</sub>NH<sub>2</sub> + HCl → CH<sub>3</sub>NH<sub>3</sub>Cl (môi trường trung tính/acid nhẹ làm mất màu hồng phenolphthalein).<br>• c) Đúng.<br>• d) Sai vì aniline có tính base rất yếu, không làm phenolphthalein chuyển sang màu hồng.'
+                },
+                {
+                    id: 'p2_9_1', topic: 'bai9',
+                    stem: 'Các amino acid có khả năng di chuyển khác nhau trong điện trường tùy thuộc vào pH của môi trường (tính chất điện di). Đặt dung dịch gồm glycine (Gly), lysine (Lys) và glutamic acid (Glu) ở pH = 6,0 vào trong một điện trường.',
+                    statements: [
+                        { label: 'a', text: 'Cả 3 chất trên trong phân tử đều chỉ chứa 1 nhóm -NH<sub>2</sub> và 1 nhóm -COOH.', answer: false },
+                        { label: 'b', text: 'Ở pH = 6,0, ion tồn tại chủ yếu đối với Gly là dạng ion lưỡng cực nên hầu như không dịch chuyển.', answer: true },
+                        { label: 'c', text: 'Ở pH = 6,0, ion tồn tại chủ yếu đối với Lys là cation, sẽ di chuyển về phía cực âm (catot).', answer: true },
+                        { label: 'd', text: 'Ở pH = 6,0, ion tồn tại chủ yếu đối với Glu là anion, sẽ di chuyển về phía cực dương (anot).', answer: true }
+                    ],
+                    explanation: '• a) Sai vì Lys có 2 nhóm -NH<sub>2</sub> và 1 nhóm -COOH; Glu có 1 nhóm -NH<sub>2</sub> và 2 nhóm -COOH.<br>• b) Đúng.<br>• c) Đúng.<br>• d) Đúng.'
+                },
+                {
+                    id: 'p2_9_2', topic: 'bai9',
+                    stem: 'Cho peptide X có công thức cấu tạo mạch hở là: <strong>Ala-Gly-Glu-Val</strong>.',
+                    statements: [
+                        { label: 'a', text: 'X là tetrapeptide được tạo thành từ 4 đơn vị α-amino acid khác nhau.', answer: true },
+                        { label: 'b', text: 'Số liên kết peptide trong phân tử X là 4.', answer: false },
+                        { label: 'c', text: 'Thủy phân không hoàn toàn X có thể thu được tối đa 3 dipeptide và 2 tripeptide.', answer: true },
+                        { label: 'd', text: 'Số nguyên tử oxygen trong phân tử X là 7.', answer: true }
+                    ],
+                    explanation: '• a) Đúng (gồm Ala, Gly, Glu, Val).<br>• b) Sai vì tetrapeptide mạch hở chỉ có 4 - 1 = 3 liên kết peptide.<br>• c) Đúng: 3 dipeptide (Ala-Gly, Gly-Glu, Glu-Val) và 2 tripeptide (Ala-Gly-Glu, Gly-Glu-Val).<br>• d) Đúng: Tổng O = 2(Ala) + 2(Gly) + 4(Glu) + 2(Val) - 3(H<sub>2</sub>O) = 10 - 3 = 7 nguyên tử O.'
+                },
+                {
+                    id: 'p2_9_3', topic: 'bai9',
+                    stem: 'Tiến hành thí nghiệm phản ứng màu biuret theo các bước sau:<br>Bước 1: Cho vào ống nghiệm khoảng 1 mL dung dịch NaOH 30%. Thêm tiếp vài giọt dung dịch CuSO<sub>4</sub> 2%, lắc đều.<br>Bước 2: Thêm vào ống nghiệm khoảng 3 mL dung dịch lòng trắng trứng, lắc đều hỗn hợp.',
+                    statements: [
+                        { label: 'a', text: 'Ở bước 1, thu được kết tủa màu xanh của Cu(OH)<sub>2</sub>.', answer: true },
+                        { label: 'b', text: 'Ở bước 2, Cu(OH)<sub>2</sub> bị hòa tan tạo thành phức chất tan trong nước có màu tím đặc trưng.', answer: true },
+                        { label: 'c', text: 'Phản ứng này là phản ứng màu biuret, được sử dụng để nhận biết tất cả các loại peptide.', answer: false },
+                        { label: 'd', text: 'Để phân biệt dipeptide Ala-Gly và tripeptide Gly-Val-Ala, người ta có thể dùng thuốc thử Cu(OH)<sub>2</sub>/OH<sup>-</sup>.', answer: true }
+                    ],
+                    explanation: '• a) Đúng.<br>• b) Đúng.<br>• c) Sai vì dipeptide (chỉ có 1 liên kết peptide) không có phản ứng màu biuret.<br>• d) Đúng: Gly-Val-Ala tạo phức tím, còn Ala-Gly không phản ứng.'
+                },
+                {
+                    id: 'p2_10_1', topic: 'bai10',
+                    stem: 'Tiến hành thí nghiệm với protein theo các bước sau:<br>Bước 1: Cho vào hai ống nghiệm (1) và (2), mỗi ống 2 mL dung dịch lòng trắng trứng.<br>Bước 2: Đun nóng ống nghiệm (1) trên ngọn lửa đèn cồn trong 2 – 3 phút.<br>Bước 3: Thêm vài giọt dung dịch HNO<sub>3</sub> đặc vào ống nghiệm (2).',
+                    statements: [
+                        { label: 'a', text: 'Ở bước 2, lòng trắng trứng bị đông tụ khi đun nóng trên đèn cồn.', answer: true },
+                        { label: 'b', text: 'Ở bước 3, lòng trắng trứng tác dụng với dung dịch HNO<sub>3</sub> đặc tạo thành hợp chất rắn có màu vàng. Phản ứng này gọi là phản ứng màu biuret.', answer: false },
+                        { label: 'c', text: 'Protein có thể bị đông tụ dưới tác dụng của nhiệt, acid, base hoặc ion kim loại nặng.', answer: true },
+                        { label: 'd', text: 'Ở bước 3, màu vàng của sản phẩm là do phản ứng nitro hóa vòng thơm có trong protein kết hợp sự đông tụ.', answer: true }
+                    ],
+                    explanation: '• a) Đúng.<br>• b) Sai vì phản ứng màu biuret là phản ứng với Cu(OH)<sub>2</sub>/OH<sup>-</sup> tạo phức màu tím.<br>• c) Đúng.<br>• d) Đúng.'
+                },
+                {
+                    id: 'p2_10_2', topic: 'bai10',
+                    stem: 'Hầu hết các phản ứng trong quá trình trao đổi chất của cơ thể sinh vật được thực hiện nhờ chất xúc tác sinh học, đó là enzyme.',
+                    statements: [
+                        { label: 'a', text: 'Phần lớn enzyme được cấu tạo từ protein, có khả năng xúc tác cho các quá trình hóa học và sinh hóa.', answer: true },
+                        { label: 'b', text: 'Enzyme có tính chọn lọc cao, mỗi enzyme thường chỉ xúc tác cho một hoặc một số phản ứng nhất định.', answer: true },
+                        { label: 'c', text: 'Enzyme có tác dụng làm tăng năng lượng hoạt hóa của phản ứng nên làm tăng tốc độ phản ứng.', answer: false },
+                        { label: 'd', text: 'Enzyme α-amylase có trong nước bọt thúc đẩy quá trình thủy phân tinh bột nên khi nhai cơm kĩ ta thấy vị ngọt.', answer: true }
+                    ],
+                    explanation: '• a) Đúng.<br>• b) Đúng.<br>• c) Sai vì chất xúc tác (enzyme) làm <strong>giảm</strong> năng lượng hoạt hóa của phản ứng.<br>• d) Đúng (tinh bột thủy phân một phần thành maltose/glucose có vị ngọt).'
+                }
+            ],
+
+            // ---------------- PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN ----------------
+            part3: [
+                {
+                    id: 'p3_8_1', topic: 'bai8',
+                    question: 'Có bao nhiêu amine là đồng phân cấu tạo của nhau ứng với công thức phân tử C<sub>3</sub>H<sub>9</sub>N?',
+                    answer: '4',
+                    unit: 'đồng phân',
+                    explanation: 'Có 4 đồng phân cấu tạo của C<sub>3</sub>H<sub>9</sub>N gồm: CH<sub>3</sub>CH<sub>2</sub>CH<sub>2</sub>NH<sub>2</sub> (bậc 1), CH<sub>3</sub>CH(NH<sub>2</sub>)CH<sub>3</sub> (bậc 1), CH<sub>3</sub>NHCH<sub>2</sub>CH<sub>3</sub> (bậc 2), (CH<sub>3</sub>)<sub>3</sub>N (bậc 3).'
+                },
+                {
+                    id: 'p3_8_2', topic: 'bai8',
+                    question: 'Cho 13,5 gam hỗn hợp gồm 3 amine no, đơn chức, mạch hở tác dụng vừa đủ với 300 mL dung dịch HCl x M, thu được dung dịch chứa 24,45 gam hỗn hợp muối. Giá trị của x là bao nhiêu?',
+                    answer: '1',
+                    unit: 'M',
+                    explanation: 'Bảo toàn khối lượng: m<sub>HCl</sub> = m<sub>muối</sub> - m<sub>amine</sub> = 24,45 - 13,5 = 10,95 gam.<br>⇒ n<sub>HCl</sub> = 10,95 / 36,5 = 0,3 mol.<br>⇒ Nồng độ mol x = 0,3 / 0,3 = 1 M.'
+                },
+                {
+                    id: 'p3_8_3', topic: 'bai8',
+                    question: 'Cho m gam methylamine (CH<sub>3</sub>NH<sub>2</sub>) tác dụng hết với dung dịch HNO<sub>2</sub>, thu được methanol. Khi lượng methanol tạo ra tác dụng hết với sodium dư, thu được 7,437 lít khí hydrogen ở điều kiện chuẩn (25°C, 1 bar). Giá trị của m là bao nhiêu?',
+                    answer: '18,6',
+                    unit: 'gam',
+                    explanation: 'n<sub>H2</sub> = 7,437 / 24,79 = 0,3 mol.<br>CH<sub>3</sub>OH + Na → CH<sub>3</sub>ONa + 1/2 H<sub>2</sub> ⇒ n<sub>CH3OH</sub> = 2 × 0,3 = 0,6 mol.<br>CH<sub>3</sub>NH<sub>2</sub> + HNO<sub>2</sub> → CH<sub>3</sub>OH + N<sub>2</sub> + H<sub>2</sub>O ⇒ n<sub>CH3NH2</sub> = 0,6 mol.<br>⇒ m = 0,6 × 31 = 18,6 gam.'
+                },
+                {
+                    id: 'p3_9_1', topic: 'bai9',
+                    question: 'Số đồng phân amino acid (chứa đồng thời nhóm -NH<sub>2</sub> và -COOH) có công thức phân tử C<sub>3</sub>H<sub>7</sub>O<sub>2</sub>N là bao nhiêu?',
+                    answer: '2',
+                    unit: 'đồng phân',
+                    explanation: 'Có 2 đồng phân cấu tạo amino acid của C<sub>3</sub>H<sub>7</sub>O<sub>2</sub>N là:<br>1) CH<sub>3</sub>-CH(NH<sub>2</sub>)-COOH (α-aminopropionic acid / alanine)<br>2) H<sub>2</sub>N-CH<sub>2</sub>-CH<sub>2</sub>-COOH (β-aminopropionic acid).'
+                },
+                {
+                    id: 'p3_9_2', topic: 'bai9',
+                    question: 'Peptide X có tên viết tắt là Gly-Ala. Phân tử khối của X bằng bao nhiêu amu?',
+                    answer: '146',
+                    unit: 'amu',
+                    explanation: 'M<sub>Gly-Ala</sub> = M<sub>Gly</sub> + M<sub>Ala</sub> - M<sub>H2O</sub> = 75 + 89 - 18 = 146 amu.'
+                },
+                {
+                    id: 'p3_9_3', topic: 'bai9',
+                    question: 'Có bao nhiêu tripeptide mạch hở khác loại mà khi thủy phân hoàn toàn đều thu được 3 α-amino acid: glycine (Gly), alanine (Ala) và phenylalanine (Phe)?',
+                    answer: '6',
+                    unit: 'tripeptide',
+                    explanation: 'Số hoán vị của 3 amino acid khác nhau trong một tripeptide mạch hở là 3! = 3 × 2 × 1 = 6 đồng phân (Gly-Ala-Phe, Gly-Phe-Ala, Ala-Gly-Phe, Ala-Phe-Gly, Phe-Gly-Ala, Phe-Ala-Gly).'
+                },
+                {
+                    id: 'p3_9_4', topic: 'bai9',
+                    question: 'Cho 0,01 mol amino acid X tác dụng vừa đủ với 80 mL dung dịch HCl 0,125 M, thu được 1,835 gam muối khan. Mặt khác, 0,01 mol X tác dụng vừa đủ với 25 gam dung dịch NaOH 3,2%. Phân tử khối của X là bao nhiêu amu?',
+                    answer: '147',
+                    unit: 'amu',
+                    explanation: 'n<sub>HCl</sub> = 0,08 × 0,125 = 0,01 mol ⇒ X có 1 nhóm -NH<sub>2</sub>.<br>n<sub>NaOH</sub> = (25 × 3,2%) / 40 = 0,02 mol ⇒ X có 2 nhóm -COOH.<br>Bảo toàn khối lượng: m<sub>X</sub> = 1,835 - 0,01 × 36,5 = 1,47 gam ⇒ M<sub>X</sub> = 1,47 / 0,01 = 147 (Glutamic acid).'
+                },
+                {
+                    id: 'p3_10_1', topic: 'bai10',
+                    question: 'Cho một số protein sau: keratin (tóc, móng), collagen (da, sụn), myosin (cơ bắp), hemoglobin (máu), albumin (lòng trắng trứng), fibroin (tơ tằm). Có bao nhiêu protein tan được trong nước tạo dung dịch keo?',
+                    answer: '2',
+                    unit: 'protein',
+                    explanation: 'Chỉ các protein dạng hình cầu mới tan được trong nước tạo dung dịch keo, gồm 2 chất: hemoglobin và albumin. Các chất còn lại đều là protein hình sợi không tan.'
+                },
+                {
+                    id: 'p3_10_2', topic: 'bai10',
+                    question: 'Efferalgan 80 mg là thuốc hạ sốt cho trẻ em có thành phần chính là 80 mg paracetamol. Để sản xuất 8 triệu viên thuốc efferalgan 80 mg từ p-aminophenol (C<sub>6</sub>H<sub>7</sub>NO, M = 109) và acetic anhydride tạo paracetamol (C<sub>8</sub>H<sub>9</sub>NO<sub>2</sub>, M = 151) với hiệu suất 80%, khối lượng p-aminophenol tối thiểu cần dùng là bao nhiêu kg? (Làm tròn kết quả đến hàng đơn vị).',
+                    answer: '577',
+                    unit: 'kg',
+                    explanation: 'Tổng khối lượng paracetamol = 8.000.000 × 80 mg = 640.000.000 mg = 640 kg.<br>Theo tỉ lệ mol 1:1 và hiệu suất H = 80%:<br>m<sub>p-aminophenol</sub> = (640 × 109) / (151 × 0,8) ≈ 577,48 kg → Làm tròn hàng đơn vị là 577 kg.'
+                }
+            ]
+        };
+
+        // =========================================================================
+        // 2. STATE QUẢN LÝ BÀI THI
+        // =========================================================================
+        let state = {
+            studentName: '',
+            studentClass: '',
+            selectedTopic: 'full',
+            examTitle: 'Đề Tổng Hợp Chương 3',
+            durationSeconds: 45 * 60,
+            remainingSeconds: 45 * 60,
+            timerInterval: null,
+            isSubmitted: false,
+            questions: { part1: [], part2: [], part3: [] },
+            answers: { part1: {}, part2: {}, part3: {} }, // Lưu câu trả lời của học sinh
+            flagged: {}, // Lưu trạng thái đánh dấu xem lại: { 'p1_0': true }
+            weights: { p1: 0.25, p2: 1.0, p3: 0.25 }
+        };
+
+        // =========================================================================
+        // 3. CÁC HÀM ĐIỀU HƯỚNG & KHỞI TẠO ĐỀ
+        // =========================================================================
+        function selectTopic(topicKey) {
+            state.selectedTopic = topicKey;
+            document.querySelectorAll('.topic-card').forEach(card => {
+                if (card.dataset.topic === topicKey) {
+                    card.classList.remove('border-slate-200', 'bg-white');
+                    card.classList.add('border-indigo-600', 'bg-indigo-50/70');
+                } else {
+                    card.classList.remove('border-indigo-600', 'bg-indigo-50/70');
+                    card.classList.add('border-slate-200', 'bg-white');
+                }
+            });
+        }
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function buildExamData() {
+            const topic = state.selectedTopic;
+            state.answers = { part1: {}, part2: {}, part3: {} };
+            state.flagged = {};
+            state.isSubmitted = false;
+
+            if (topic === 'full') {
+                state.examTitle = 'Đề Tổng Hợp Chương 3: Hợp Chất Chứa Nitrogen';
+                state.durationSeconds = 45 * 60;
+                // Lấy đúng cấu trúc chuẩn Bộ GD&ĐT: 18 câu P1 + 4 câu P2 + 6 câu P3 = 10 điểm
+                const p1_b8 = shuffleArray(QUESTION_BANK.part1.filter(q => q.topic === 'bai8')).slice(0, 6);
+                const p1_b9 = shuffleArray(QUESTION_BANK.part1.filter(q => q.topic === 'bai9')).slice(0, 6);
+                const p1_b10 = shuffleArray(QUESTION_BANK.part1.filter(q => q.topic === 'bai10')).slice(0, 6);
+                state.questions.part1 = [...p1_b8, ...p1_b9, ...p1_b10];
+
+                const p2_b8 = shuffleArray(QUESTION_BANK.part2.filter(q => q.topic === 'bai8')).slice(0, 2);
+                const p2_b9 = shuffleArray(QUESTION_BANK.part2.filter(q => q.topic === 'bai9')).slice(0, 1);
+                const p2_b10 = shuffleArray(QUESTION_BANK.part2.filter(q => q.topic === 'bai10')).slice(0, 1);
+                state.questions.part2 = [...p2_b8, ...p2_b9, ...p2_b10];
+
+                const p3_b8 = shuffleArray(QUESTION_BANK.part3.filter(q => q.topic === 'bai8')).slice(0, 2);
+                const p3_b9 = shuffleArray(QUESTION_BANK.part3.filter(q => q.topic === 'bai9')).slice(0, 2);
+                const p3_b10 = shuffleArray(QUESTION_BANK.part3.filter(q => q.topic === 'bai10')).slice(0, 2);
+                state.questions.part3 = [...p3_b8, ...p3_b9, ...p3_b10];
+
+                // Thang điểm chuẩn 10: 18*0.25 (4.5) + 4*1.0 (4.0) + 6*0.25 (1.5) = 10.0
+                state.weights = { p1: 0.25, p2: 1.0, p3: 0.25 };
+            } else {
+                const titles = {
+                    bai8: 'Kiểm Tra Chuyên Đề: Bài 8 - Amine',
+                    bai9: 'Kiểm Tra Chuyên Đề: Bài 9 - Amino Acid & Peptide',
+                    bai10: 'Kiểm Tra Chuyên Đề: Bài 10 - Protein & Enzyme'
+                };
+                state.examTitle = titles[topic];
+                state.durationSeconds = 25 * 60;
+
+                state.questions.part1 = shuffleArray(QUESTION_BANK.part1.filter(q => q.topic === topic));
+                state.questions.part2 = shuffleArray(QUESTION_BANK.part2.filter(q => q.topic === topic));
+                state.questions.part3 = shuffleArray(QUESTION_BANK.part3.filter(q => q.topic === topic));
+
+                // Tự động cân đối trọng số để tổng điểm tối đa luôn tròn 10.0 điểm
+                const n1 = state.questions.part1.length;
+                const n2 = state.questions.part2.length;
+                const n3 = state.questions.part3.length;
+                const totalUnits = n1 * 1 + n2 * 4 + n3 * 2; // Quy đổi theo đơn vị tỷ lệ chuẩn
+                const unitVal = 10 / totalUnits;
+                state.weights = {
+                    p1: unitVal * 1,
+                    p2: unitVal * 4,
+                    p3: unitVal * 2
+                };
+            }
+            state.remainingSeconds = state.durationSeconds;
+        }
+
+        function startExam() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            const classInput = document.getElementById('student-class').value.trim();
+            const valMsg = document.getElementById('validation-msg');
+
+            if (!nameInput || !classInput) {
+                valMsg.classList.remove('hidden');
+                return;
+            }
+            valMsg.classList.add('hidden');
+
+            state.studentName = nameInput;
+            state.studentClass = classInput;
+
+            buildExamData();
+            renderExamUI();
+
+            // Chuyển màn hình
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            const workspace = document.getElementById('exam-workspace');
+            workspace.classList.remove('hidden');
+            workspace.classList.add('grid');
+
+            document.getElementById('header-timer-box').classList.remove('hidden');
+            document.getElementById('header-timer-box').classList.add('flex');
+            document.getElementById('submit-action-box').classList.remove('hidden');
+
+            document.getElementById('nav-student-info').textContent = `${state.studentName} • ${state.studentClass}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            startTimer();
+        }
+
+        function startTimer() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            updateTimerDisplay();
+            state.timerInterval = setInterval(() => {
+                state.remainingSeconds--;
+                updateTimerDisplay();
+                if (state.remainingSeconds <= 0) {
+                    clearInterval(state.timerInterval);
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(state.remainingSeconds / 60);
+            const secs = state.remainingSeconds % 60;
+            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            const display = document.getElementById('timer-display');
+            display.textContent = formatted;
+            if (state.remainingSeconds < 180) {
+                display.classList.add('text-amber-300');
+            } else {
+                display.classList.remove('text-amber-300');
+            }
+        }
+
+        // =========================================================================
+        // 4. RENDER GIAO DIỆN CÂU HỎI & BẢNG ĐIỀU HƯỚNG
+        // =========================================================================
+        function renderExamUI() {
+            const p1List = document.getElementById('part1-list');
+            const p2List = document.getElementById('part2-list');
+            const p3List = document.getElementById('part3-list');
+
+            document.getElementById('p1-count-label').textContent = state.questions.part1.length;
+            document.getElementById('p2-count-label').textContent = state.questions.part2.length;
+            document.getElementById('p3-count-label').textContent = state.questions.part3.length;
+
+            // --- Render Phần I ---
+            const letters = ['A', 'B', 'C', 'D'];
+            p1List.innerHTML = state.questions.part1.map((q, idx) => {
+                const qKey = `p1_${idx}`;
+                return `
+                <div id="card-${qKey}" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 transition">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="flex items-start space-x-2.5">
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-700 font-extrabold text-xs shrink-0 mt-0.5">Câu ${idx + 1}</span>
+                            <div class="text-slate-800 font-medium text-sm sm:text-base leading-relaxed chem-formula">${q.question}</div>
+                        </div>
+                        <button onclick="toggleFlag('${qKey}')" id="flag-${qKey}" title="Đánh dấu xem lại" class="text-slate-300 hover:text-amber-500 transition p-1.5 rounded-lg">
+                            <i class="fa-solid fa-flag"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${q.options.map((opt, optIdx) => `
+                            <div onclick="selectP1(${idx}, ${optIdx})" id="opt-${qKey}-${optIdx}" 
+                                class="option-card cursor-pointer p-3.5 rounded-xl border border-slate-200 flex items-center space-x-3">
+                                <span id="badge-${qKey}-${optIdx}" class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">
+                                    ${letters[optIdx]}
+                                </span>
+                                <span class="text-sm text-slate-700 chem-formula">${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div id="exp-${qKey}" class="hidden mt-4 p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-xs sm:text-sm text-slate-700 chem-formula"></div>
+                </div>`;
+            }).join('');
+
+            // --- Render Phần II ---
+            p2List.innerHTML = state.questions.part2.map((q, idx) => {
+                const qKey = `p2_${idx}`;
+                return `
+                <div id="card-${qKey}" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 transition">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="flex items-start space-x-2.5">
+                            <span class="px-2.5 py-1 rounded-lg bg-purple-100 text-purple-700 font-extrabold text-xs shrink-0 mt-0.5">Câu ${idx + 1}</span>
+                            <div class="text-slate-800 font-medium text-sm sm:text-base leading-relaxed chem-formula">${q.stem}</div>
+                        </div>
+                        <button onclick="toggleFlag('${qKey}')" id="flag-${qKey}" title="Đánh dấu xem lại" class="text-slate-300 hover:text-amber-500 transition p-1.5 rounded-lg">
+                            <i class="fa-solid fa-flag"></i>
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase">
+                                    <th class="py-2.5 px-3 sm:px-4">Phát biểu</th>
+                                    <th class="py-2.5 px-2 text-center w-20">Đúng</th>
+                                    <th class="py-2.5 px-2 text-center w-20">Sai</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                ${q.statements.map((st, stIdx) => `
+                                    <tr id="row-${qKey}-${stIdx}" class="hover:bg-slate-50/70 transition">
+                                        <td class="py-3 px-3 sm:px-4 text-slate-700 chem-formula">
+                                            <strong class="text-purple-700 mr-1">${st.label})</strong> ${st.text}
+                                        </td>
+                                        <td class="py-3 px-2 text-center">
+                                            <button onclick="selectP2(${idx}, ${stIdx}, true)" id="btn-${qKey}-${stIdx}-true"
+                                                class="w-14 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-600 hover:border-indigo-500 transition">
+                                                Đúng
+                                            </button>
+                                        </td>
+                                        <td class="py-3 px-2 text-center">
+                                            <button onclick="selectP2(${idx}, ${stIdx}, false)" id="btn-${qKey}-${stIdx}-false"
+                                                class="w-14 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-600 hover:border-indigo-500 transition">
+                                                Sai
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="exp-${qKey}" class="hidden mt-4 p-4 rounded-xl bg-purple-50/80 border border-purple-200 text-xs sm:text-sm text-slate-700 chem-formula"></div>
+                </div>`;
+            }).join('');
+
+            // --- Render Phần III ---
+            p3List.innerHTML = state.questions.part3.map((q, idx) => {
+                const qKey = `p3_${idx}`;
+                return `
+                <div id="card-${qKey}" class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 transition">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="flex items-start space-x-2.5">
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 font-extrabold text-xs shrink-0 mt-0.5">Câu ${idx + 1}</span>
+                            <div class="text-slate-800 font-medium text-sm sm:text-base leading-relaxed chem-formula">${q.question}</div>
+                        </div>
+                        <button onclick="toggleFlag('${qKey}')" id="flag-${qKey}" title="Đánh dấu xem lại" class="text-slate-300 hover:text-amber-500 transition p-1.5 rounded-lg">
+                            <i class="fa-solid fa-flag"></i>
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label class="text-xs font-bold uppercase text-slate-500">Đáp số:</label>
+                        <input type="text" id="input-${qKey}" oninput="inputP3(${idx}, this.value)" placeholder="Nhập kết quả..." 
+                            class="w-44 px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-emerald-500 outline-none font-bold text-slate-800 transition">
+                        <span class="text-xs font-medium text-slate-400">(${q.unit})</span>
+                        <span id="status-${qKey}" class="hidden text-xs font-bold px-3 py-1 rounded-lg"></span>
+                    </div>
+                    <div id="exp-${qKey}" class="hidden mt-4 p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs sm:text-sm text-slate-700 chem-formula"></div>
+                </div>`;
+            }).join('');
+
+            renderPalette();
+            updateProgress();
+        }
+
+        function renderPalette() {
+            const p1Pal = document.getElementById('palette-p1');
+            const p2Pal = document.getElementById('palette-p2');
+            const p3Pal = document.getElementById('palette-p3');
+
+            p1Pal.innerHTML = state.questions.part1.map((_, idx) => 
+                `<button onclick="scrollToQuestion('p1_${idx}')" id="pal-p1_${idx}" class="h-8 rounded-lg border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 hover:border-indigo-400 transition">${idx + 1}</button>`
+            ).join('');
+
+            p2Pal.innerHTML = state.questions.part2.map((_, idx) => 
+                `<button onclick="scrollToQuestion('p2_${idx}')" id="pal-p2_${idx}" class="h-8 rounded-lg border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 hover:border-purple-400 transition">C${idx + 1}</button>`
+            ).join('');
+
+            p3Pal.innerHTML = state.questions.part3.map((_, idx) => 
+                `<button onclick="scrollToQuestion('p3_${idx}')" id="pal-p3_${idx}" class="h-8 rounded-lg border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 hover:border-emerald-400 transition">${idx + 1}</button>`
+            ).join('');
+        }
+
+        function scrollToQuestion(qKey) {
+            const el = document.getElementById(`card-${qKey}`);
+            if (el) {
+                const y = el.getBoundingClientRect().top + window.scrollY - 90;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        }
+
+        // =========================================================================
+        // 5. XỬ LÝ TƯƠNG TÁC TRẢ LỜI CỦA HỌC SINH
+        // =========================================================================
+        function selectP1(qIdx, optIdx) {
+            if (state.isSubmitted) return;
+            state.answers.part1[qIdx] = optIdx;
+            const qKey = `p1_${qIdx}`;
+
+            for (let i = 0; i < 4; i++) {
+                const card = document.getElementById(`opt-${qKey}-${i}`);
+                const badge = document.getElementById(`badge-${qKey}-${i}`);
+                if (i === optIdx) {
+                    card.classList.add('border-indigo-600', 'bg-indigo-50');
+                    card.classList.remove('border-slate-200');
+                    badge.classList.add('bg-indigo-600', 'text-white');
+                    badge.classList.remove('bg-slate-100', 'text-slate-700');
+                } else {
+                    card.classList.remove('border-indigo-600', 'bg-indigo-50');
+                    card.classList.add('border-slate-200');
+                    badge.classList.remove('bg-indigo-600', 'text-white');
+                    badge.classList.add('bg-slate-100', 'text-slate-700');
+                }
+            }
+            updatePaletteItem(qKey);
+            updateProgress();
+        }
+
+        function selectP2(qIdx, stIdx, val) {
+            if (state.isSubmitted) return;
+            if (!state.answers.part2[qIdx]) state.answers.part2[qIdx] = {};
+            state.answers.part2[qIdx][stIdx] = val;
+
+            const qKey = `p2_${qIdx}`;
+            const btnTrue = document.getElementById(`btn-${qKey}-${stIdx}-true`);
+            const btnFalse = document.getElementById(`btn-${qKey}-${stIdx}-false`);
+
+            if (val === true) {
+                btnTrue.className = 'w-14 py-1.5 rounded-lg border border-indigo-600 bg-indigo-600 text-xs font-bold text-white shadow-sm transition';
+                btnFalse.className = 'w-14 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-600 hover:border-indigo-500 transition';
+            } else {
+                btnFalse.className = 'w-14 py-1.5 rounded-lg border border-indigo-600 bg-indigo-600 text-xs font-bold text-white shadow-sm transition';
+                btnTrue.className = 'w-14 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-600 hover:border-indigo-500 transition';
+            }
+            updatePaletteItem(qKey);
+            updateProgress();
+        }
+
+        function inputP3(qIdx, val) {
+            if (state.isSubmitted) return;
+            const trimmed = val.trim();
+            if (trimmed === '') {
+                delete state.answers.part3[qIdx];
+            } else {
+                state.answers.part3[qIdx] = trimmed;
+            }
+            updatePaletteItem(`p3_${qIdx}`);
+            updateProgress();
+        }
+
+        function toggleFlag(qKey) {
+            if (state.isSubmitted) return;
+            state.flagged[qKey] = !state.flagged[qKey];
+            const flagBtn = document.getElementById(`flag-${qKey}`);
+            if (state.flagged[qKey]) {
+                flagBtn.classList.remove('text-slate-300');
+                flagBtn.classList.add('text-amber-500');
+            } else {
+                flagBtn.classList.add('text-slate-300');
+                flagBtn.classList.remove('text-amber-500');
+            }
+            updatePaletteItem(qKey);
+        }
+
+        function isQuestionAnswered(qKey) {
+            const [part, idxStr] = qKey.split('_');
+            const idx = parseInt(idxStr, 10);
+            if (part === 'p1') return state.answers.part1[idx] !== undefined;
+            if (part === 'p2') {
+                const ans = state.answers.part2[idx];
+                return ans && Object.keys(ans).length === 4;
+            }
+            if (part === 'p3') return state.answers.part3[idx] !== undefined && state.answers.part3[idx] !== '';
+            return false;
+        }
+
+        function updatePaletteItem(qKey) {
+            if (state.isSubmitted) return;
+            const palBtn = document.getElementById(`pal-${qKey}`);
+            if (!palBtn) return;
+
+            const answered = isQuestionAnswered(qKey);
+            const flagged = !!state.flagged[qKey];
+
+            palBtn.className = 'h-8 rounded-lg border text-xs font-bold transition ';
+            if (flagged) {
+                palBtn.className += 'bg-amber-400 border-amber-500 text-slate-900';
+            } else if (answered) {
+                palBtn.className += 'bg-indigo-600 border-indigo-600 text-white';
+            } else {
+                palBtn.className += 'bg-slate-50 border-slate-200 text-slate-700 hover:border-indigo-400';
+            }
+        }
+
+        function updateProgress() {
+            const total = state.questions.part1.length + state.questions.part2.length + state.questions.part3.length;
+            let done = 0;
+            state.questions.part1.forEach((_, i) => { if (isQuestionAnswered(`p1_${i}`)) done++; });
+            state.questions.part2.forEach((_, i) => { if (isQuestionAnswered(`p2_${i}`)) done++; });
+            state.questions.part3.forEach((_, i) => { if (isQuestionAnswered(`p3_${i}`)) done++; });
+
+            document.getElementById('nav-progress-text').textContent = `${done}/${total}`;
+            return { done, total };
+        }
+
+        // =========================================================================
+        // 6. NỘP BÀI, CHẤM ĐIỂM CHUẨN BỘ GD&ĐT & XEM LẠI CHI TIẾT
+        // =========================================================================
+        function openSubmitModal() {
+            const { done, total } = updateProgress();
+            document.getElementById('confirm-modal-desc').innerHTML = 
+                `Bạn đã hoàn thành <strong class="text-indigo-600">${done}/${total}</strong> câu hỏi. Sau khi nộp bài, hệ thống sẽ chấm điểm và hiển thị đáp án kèm lời giải chi tiết.`;
+            document.getElementById('confirm-modal').classList.remove('hidden');
+            document.getElementById('confirm-modal').classList.add('flex');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+            document.getElementById('confirm-modal').classList.remove('flex');
+        }
+
+        function normalizeNumber(str) {
+            if (!str) return NaN;
+            return parseFloat(String(str).replace(',', '.').trim());
+        }
+
+        function submitExam() {
+            closeSubmitModal();
+            if (state.isSubmitted) return;
+            state.isSubmitted = true;
+            if (state.timerInterval) clearInterval(state.timerInterval);
+
+            document.getElementById('header-timer-box').classList.add('hidden');
+            document.getElementById('header-timer-box').classList.remove('flex');
+            document.getElementById('submit-action-box').classList.add('hidden');
+
+            // 1. Chấm điểm Phần I
+            let p1CorrectCount = 0;
+            state.questions.part1.forEach((q, idx) => {
+                const qKey = `p1_${idx}`;
+                const userAns = state.answers.part1[idx];
+                const isRight = userAns === q.correct;
+                if (isRight) p1CorrectCount++;
+
+                // Highlight options
+                for (let i = 0; i < 4; i++) {
+                    const card = document.getElementById(`opt-${qKey}-${i}`);
+                    const badge = document.getElementById(`badge-${qKey}-${i}`);
+                    card.classList.add('disabled', 'cursor-default');
+
+                    if (i === q.correct) {
+                        card.className = 'option-card disabled p-3.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 flex items-center space-x-3';
+                        badge.className = 'w-7 h-7 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0';
+                    } else if (i === userAns && !isRight) {
+                        card.className = 'option-card disabled p-3.5 rounded-xl border-2 border-red-500 bg-red-50 flex items-center space-x-3';
+                        badge.className = 'w-7 h-7 rounded-lg bg-red-600 text-white font-bold text-xs flex items-center justify-center shrink-0';
+                    } else {
+                        card.className = 'option-card disabled p-3.5 rounded-xl border border-slate-200 opacity-60 flex items-center space-x-3';
+                    }
+                }
+
+                // Update palette
+                const palBtn = document.getElementById(`pal-${qKey}`);
+                palBtn.className = `h-8 rounded-lg border text-xs font-bold text-white ${isRight ? 'bg-emerald-500 border-emerald-600' : 'bg-red-500 border-red-600'}`;
+
+                // Show explanation
+                const expBox = document.getElementById(`exp-${qKey}`);
+                expBox.innerHTML = `<strong class="text-blue-800"><i class="fa-solid fa-book-open mr-1"></i>Giải thích:</strong> ${q.explanation}`;
+                expBox.classList.remove('hidden');
+            });
+
+            // 2. Chấm điểm Phần II (Thang điểm lũy tiến Bộ GD&ĐT: 1 ý = 10%, 2 ý = 25%, 3 ý = 50%, 4 ý = 100%)
+            let p2ScoreTotal = 0;
+            let p2CorrectStatements = 0;
+            const p2TotalStatements = state.questions.part2.length * 4;
+            const p2RatioMap = { 0: 0, 1: 0.1, 2: 0.25, 3: 0.5, 4: 1.0 };
+
+            state.questions.part2.forEach((q, idx) => {
+                const qKey = `p2_${idx}`;
+                const userAnsObj = state.answers.part2[idx] || {};
+                let rightInThisQ = 0;
+
+                q.statements.forEach((st, stIdx) => {
+                    const uVal = userAnsObj[stIdx];
+                    const isStRight = uVal === st.answer;
+                    if (isStRight) {
+                        rightInThisQ++;
+                        p2CorrectStatements++;
+                    }
+
+                    const row = document.getElementById(`row-${qKey}-${stIdx}`);
+                    const btnTrue = document.getElementById(`btn-${qKey}-${stIdx}-true`);
+                    const btnFalse = document.getElementById(`btn-${qKey}-${stIdx}-false`);
+                    btnTrue.disabled = true;
+                    btnFalse.disabled = true;
+
+                    row.classList.add(isStRight ? 'bg-emerald-50/60' : 'bg-red-50/60');
+
+                    // Đánh dấu đáp án chuẩn và lựa chọn HS
+                    if (st.answer === true) {
+                        btnTrue.className = 'w-14 py-1.5 rounded-lg border-2 border-emerald-600 bg-emerald-600 text-xs font-bold text-white';
+                        if (uVal === false) {
+                            btnFalse.className = 'w-14 py-1.5 rounded-lg border-2 border-red-500 bg-red-500 text-xs font-bold text-white line-through';
+                        }
+                    } else {
+                        btnFalse.className = 'w-14 py-1.5 rounded-lg border-2 border-emerald-600 bg-emerald-600 text-xs font-bold text-white';
+                        if (uVal === true) {
+                            btnTrue.className = 'w-14 py-1.5 rounded-lg border-2 border-red-500 bg-red-500 text-xs font-bold text-white line-through';
+                        }
+                    }
+                });
+
+                p2ScoreTotal += p2RatioMap[rightInThisQ] * state.weights.p2;
+
+                const palBtn = document.getElementById(`pal-${qKey}`);
+                palBtn.className = `h-8 rounded-lg border text-xs font-bold text-white ${
+                    rightInThisQ === 4 ? 'bg-emerald-500 border-emerald-600' : 
+                    rightInThisQ > 0 ? 'bg-amber-500 border-amber-600' : 'bg-red-500 border-red-600'
+                }`;
+
+                const expBox = document.getElementById(`exp-${qKey}`);
+                expBox.innerHTML = `<strong class="text-purple-800"><i class="fa-solid fa-book-open mr-1"></i>Phân tích từng ý:</strong><br>${q.explanation}`;
+                expBox.classList.remove('hidden');
+            });
+
+            // 3. Chấm điểm Phần III
+            let p3CorrectCount = 0;
+            state.questions.part3.forEach((q, idx) => {
+                const qKey = `p3_${idx}`;
+                const inputEl = document.getElementById(`input-${qKey}`);
+                const statusEl = document.getElementById(`status-${qKey}`);
+                inputEl.disabled = true;
+
+                const userNum = normalizeNumber(state.answers.part3[idx]);
+                const correctNum = normalizeNumber(q.answer);
+                const isRight = !isNaN(userNum) && Math.abs(userNum - correctNum) < 0.01;
+
+                if (isRight) {
+                    p3CorrectCount++;
+                    inputEl.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+                    statusEl.textContent = `✓ Chính xác (${q.answer})`;
+                    statusEl.className = 'text-xs font-bold px-3 py-1 rounded-lg bg-emerald-100 text-emerald-700';
+                } else {
+                    inputEl.classList.add('border-red-500', 'bg-red-50', 'text-red-800');
+                    statusEl.textContent = `✗ Sai • Đáp án đúng: ${q.answer}`;
+                    statusEl.className = 'text-xs font-bold px-3 py-1 rounded-lg bg-red-100 text-red-700';
+                }
+                statusEl.classList.remove('hidden');
+
+                const palBtn = document.getElementById(`pal-${qKey}`);
+                palBtn.className = `h-8 rounded-lg border text-xs font-bold text-white ${isRight ? 'bg-emerald-500 border-emerald-600' : 'bg-red-500 border-red-600'}`;
+
+                const expBox = document.getElementById(`exp-${qKey}`);
+                expBox.innerHTML = `<strong class="text-emerald-800"><i class="fa-solid fa-calculator mr-1"></i>Hướng dẫn giải:</strong><br>${q.explanation}`;
+                expBox.classList.remove('hidden');
+            });
+
+            // Tổng hợp kết quả
+            const scoreP1 = p1CorrectCount * state.weights.p1;
+            const scoreP2 = p2ScoreTotal;
+            const scoreP3 = p3CorrectCount * state.weights.p3;
+            const finalScore = Math.min(10, scoreP1 + scoreP2 + scoreP3);
+
+            const elapsed = state.durationSeconds - state.remainingSeconds;
+            const eMins = Math.floor(elapsed / 60);
+            const eSecs = elapsed % 60;
+
+            document.getElementById('res-exam-title').textContent = state.examTitle;
+            document.getElementById('res-name').textContent = state.studentName;
+            document.getElementById('res-class').textContent = state.studentClass;
+            document.getElementById('res-time').textContent = `${eMins} phút ${eSecs} giây`;
+            document.getElementById('res-score').textContent = finalScore.toFixed(2);
+
+            const rankEl = document.getElementById('res-rank');
+            if (finalScore >= 8.5) rankEl.textContent = 'Xuất sắc 🌟';
+            else if (finalScore >= 7.0) rankEl.textContent = 'Khá giỏi 👍';
+            else if (finalScore >= 5.0) rankEl.textContent = 'Đạt yêu cầu ✓';
+            else rankEl.textContent = 'Cần ôn tập thêm 📚';
+
+            document.getElementById('stat-p1').textContent = `${p1CorrectCount}/${state.questions.part1.length} câu đúng`;
+            document.getElementById('score-p1').textContent = `+${scoreP1.toFixed(2)}đ`;
+
+            document.getElementById('stat-p2').textContent = `${p2CorrectStatements}/${p2TotalStatements} ý đúng`;
+            document.getElementById('score-p2').textContent = `+${scoreP2.toFixed(2)}đ`;
+
+            document.getElementById('stat-p3').textContent = `${p3CorrectCount}/${state.questions.part3.length} câu đúng`;
+            document.getElementById('score-p3').textContent = `+${scoreP3.toFixed(2)}đ`;
+
+            document.getElementById('result-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function retryExam() {
+            startExam();
+        }
+
+        function resetToHome() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            document.getElementById('header-timer-box').classList.add('hidden');
+            document.getElementById('header-timer-box').classList.remove('flex');
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('exam-workspace').classList.add('hidden');
+            document.getElementById('exam-workspace').classList.remove('grid');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
